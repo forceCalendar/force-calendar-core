@@ -1,5 +1,6 @@
 import { Event } from './Event.js';
 import { DateUtils } from '../calendar/DateUtils.js';
+import { RecurrenceEngine } from './RecurrenceEngine.js';
 
 /**
  * EventStore - Manages calendar events with efficient querying
@@ -365,10 +366,59 @@ export class EventStore {
    * Get events for a date range
    * @param {Date} start - Start date
    * @param {Date} end - End date
+   * @param {boolean} expandRecurring - Whether to expand recurring events
    * @returns {Event[]}
    */
-  getEventsInRange(start, end) {
-    return this.queryEvents({ start, end, sort: 'start' });
+  getEventsInRange(start, end, expandRecurring = true) {
+    const baseEvents = this.queryEvents({ start, end, sort: 'start' });
+
+    if (!expandRecurring) {
+      return baseEvents;
+    }
+
+    // Expand recurring events
+    const expandedEvents = [];
+    baseEvents.forEach(event => {
+      if (event.recurring && event.recurrenceRule) {
+        const occurrences = this.expandRecurringEvent(event, start, end);
+        expandedEvents.push(...occurrences);
+      } else {
+        expandedEvents.push(event);
+      }
+    });
+
+    return expandedEvents.sort((a, b) => a.start - b.start);
+  }
+
+  /**
+   * Expand a recurring event into individual occurrences
+   * @param {Event} event - The recurring event
+   * @param {Date} rangeStart - Start of the expansion range
+   * @param {Date} rangeEnd - End of the expansion range
+   * @returns {Event[]} Array of event occurrences
+   */
+  expandRecurringEvent(event, rangeStart, rangeEnd) {
+    if (!event.recurring || !event.recurrenceRule) {
+      return [event];
+    }
+
+    const occurrences = RecurrenceEngine.expandEvent(event, rangeStart, rangeEnd);
+
+    return occurrences.map((occurrence, index) => {
+      // Create a new event instance for each occurrence
+      const occurrenceEvent = event.clone({
+        id: `${event.id}_occurrence_${index}`,
+        start: occurrence.start,
+        end: occurrence.end,
+        metadata: {
+          ...event.metadata,
+          recurringEventId: event.id,
+          occurrenceIndex: index
+        }
+      });
+
+      return occurrenceEvent;
+    });
   }
 
   /**

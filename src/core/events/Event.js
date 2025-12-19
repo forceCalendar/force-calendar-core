@@ -18,6 +18,7 @@ export class Event {
     textColor = null,
     recurring = false,
     recurrenceRule = null,
+    timeZone = null,
     metadata = {}
   }) {
     // Required fields
@@ -50,6 +51,9 @@ export class Event {
     // Recurrence
     this.recurring = recurring;
     this.recurrenceRule = recurrenceRule;
+
+    // Timezone - if not specified, events are in browser's local timezone
+    this.timeZone = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     // Custom metadata for extensibility
     this.metadata = { ...metadata };
@@ -180,6 +184,7 @@ export class Event {
       textColor: this.textColor,
       recurring: this.recurring,
       recurrenceRule: this.recurrenceRule,
+      timeZone: this.timeZone,
       metadata: { ...this.metadata },
       ...updates
     });
