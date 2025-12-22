@@ -24,6 +24,14 @@ export class Event {
     recurring = false,
     recurrenceRule = null,
     timeZone = null,
+    status = 'confirmed',
+    visibility = 'public',
+    organizer = null,
+    attendees = [],
+    reminders = [],
+    categories = [],
+    attachments = [],
+    conferenceData = null,
     metadata = {}
   }) {
     // Required fields
@@ -60,11 +68,35 @@ export class Event {
     // Timezone - if not specified, events are in browser's local timezone
     this.timeZone = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    // Event status and visibility
+    this.status = status;
+    this.visibility = visibility;
+
+    // People
+    this.organizer = organizer;
+    this.attendees = Array.isArray(attendees) ? [...attendees] : [];
+
+    // Reminders
+    this.reminders = Array.isArray(reminders) ? [...reminders] : [];
+
+    // Categories/Tags
+    this.categories = Array.isArray(categories) ? [...categories] : [];
+
+    // Attachments
+    this.attachments = Array.isArray(attachments) ? [...attachments] : [];
+
+    // Conference/Virtual meeting
+    this.conferenceData = conferenceData;
+
     // Custom metadata for extensibility
     this.metadata = { ...metadata };
 
     // Computed properties cache
     this._cache = {};
+
+    // Validate complex properties
+    this._validateAttendees();
+    this._validateReminders();
   }
 
   /**
@@ -199,6 +231,14 @@ export class Event {
       recurring: this.recurring,
       recurrenceRule: this.recurrenceRule,
       timeZone: this.timeZone,
+      status: this.status,
+      visibility: this.visibility,
+      organizer: this.organizer ? { ...this.organizer } : null,
+      attendees: this.attendees.map(a => ({ ...a })),
+      reminders: this.reminders.map(r => ({ ...r })),
+      categories: [...this.categories],
+      attachments: this.attachments.map(a => ({ ...a })),
+      conferenceData: this.conferenceData ? { ...this.conferenceData } : null,
       metadata: { ...this.metadata },
       ...updates
     });
@@ -223,6 +263,15 @@ export class Event {
       textColor: this.textColor,
       recurring: this.recurring,
       recurrenceRule: this.recurrenceRule,
+      timeZone: this.timeZone,
+      status: this.status,
+      visibility: this.visibility,
+      organizer: this.organizer,
+      attendees: this.attendees,
+      reminders: this.reminders,
+      categories: this.categories,
+      attachments: this.attachments,
+      conferenceData: this.conferenceData,
       metadata: { ...this.metadata }
     };
   }
@@ -253,7 +302,368 @@ export class Event {
       this.description === other.description &&
       this.location === other.location &&
       this.recurring === other.recurring &&
-      this.recurrenceRule === other.recurrenceRule
+      this.recurrenceRule === other.recurrenceRule &&
+      this.status === other.status
     );
+  }
+
+  // ============ Attendee Management Methods ============
+
+  /**
+   * Add an attendee to the event
+   * @param {import('../../types.js').Attendee} attendee - Attendee to add
+   * @returns {boolean} True if attendee was added, false if already exists
+   */
+  addAttendee(attendee) {
+    if (!attendee || !attendee.email) {
+      throw new Error('Attendee must have an email');
+    }
+
+    // Check if attendee already exists
+    if (this.hasAttendee(attendee.email)) {
+      return false;
+    }
+
+    // Generate ID if not provided
+    if (!attendee.id) {
+      attendee.id = `attendee_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+
+    // Set defaults
+    attendee.responseStatus = attendee.responseStatus || 'needs-action';
+    attendee.role = attendee.role || 'required';
+
+    this.attendees.push(attendee);
+    return true;
+  }
+
+  /**
+   * Remove an attendee from the event
+   * @param {string} emailOrId - Email or ID of the attendee to remove
+   * @returns {boolean} True if attendee was removed
+   */
+  removeAttendee(emailOrId) {
+    const index = this.attendees.findIndex(
+      a => a.email === emailOrId || a.id === emailOrId
+    );
+
+    if (index !== -1) {
+      this.attendees.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Update an attendee's response status
+   * @param {string} email - Attendee's email
+   * @param {import('../../types.js').AttendeeResponseStatus} responseStatus - New response status
+   * @returns {boolean} True if attendee was updated
+   */
+  updateAttendeeResponse(email, responseStatus) {
+    const attendee = this.getAttendee(email);
+    if (attendee) {
+      attendee.responseStatus = responseStatus;
+      attendee.responseTime = new Date();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get an attendee by email
+   * @param {string} email - Attendee's email
+   * @returns {import('../../types.js').Attendee|null} The attendee or null
+   */
+  getAttendee(email) {
+    return this.attendees.find(a => a.email === email) || null;
+  }
+
+  /**
+   * Check if an attendee exists
+   * @param {string} email - Attendee's email
+   * @returns {boolean} True if attendee exists
+   */
+  hasAttendee(email) {
+    return this.attendees.some(a => a.email === email);
+  }
+
+  /**
+   * Get attendees by response status
+   * @param {import('../../types.js').AttendeeResponseStatus} status - Response status to filter by
+   * @returns {import('../../types.js').Attendee[]} Filtered attendees
+   */
+  getAttendeesByStatus(status) {
+    return this.attendees.filter(a => a.responseStatus === status);
+  }
+
+  /**
+   * Get count of attendees by response status
+   * @returns {Object.<string, number>} Count by status
+   */
+  getAttendeeCounts() {
+    return this.attendees.reduce((counts, attendee) => {
+      const status = attendee.responseStatus || 'needs-action';
+      counts[status] = (counts[status] || 0) + 1;
+      return counts;
+    }, {});
+  }
+
+  // ============ Reminder Management Methods ============
+
+  /**
+   * Add a reminder to the event
+   * @param {import('../../types.js').Reminder} reminder - Reminder to add
+   * @returns {boolean} True if reminder was added
+   */
+  addReminder(reminder) {
+    if (!reminder || typeof reminder.minutesBefore !== 'number') {
+      throw new Error('Reminder must have minutesBefore property');
+    }
+
+    // Generate ID if not provided
+    if (!reminder.id) {
+      reminder.id = `reminder_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+
+    // Set defaults
+    reminder.method = reminder.method || 'popup';
+    reminder.enabled = reminder.enabled !== false;
+
+    // Check for duplicate
+    const duplicate = this.reminders.some(
+      r => r.method === reminder.method && r.minutesBefore === reminder.minutesBefore
+    );
+
+    if (duplicate) {
+      return false;
+    }
+
+    this.reminders.push(reminder);
+    return true;
+  }
+
+  /**
+   * Remove a reminder from the event
+   * @param {string} reminderId - ID of the reminder to remove
+   * @returns {boolean} True if reminder was removed
+   */
+  removeReminder(reminderId) {
+    const index = this.reminders.findIndex(r => r.id === reminderId);
+    if (index !== -1) {
+      this.reminders.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get active reminders
+   * @returns {import('../../types.js').Reminder[]} Active reminders
+   */
+  getActiveReminders() {
+    return this.reminders.filter(r => r.enabled !== false);
+  }
+
+  /**
+   * Get reminder trigger times
+   * @returns {Date[]} Array of dates when reminders should trigger
+   */
+  getReminderTriggerTimes() {
+    return this.getActiveReminders().map(reminder => {
+      const triggerTime = new Date(this.start);
+      triggerTime.setMinutes(triggerTime.getMinutes() - reminder.minutesBefore);
+      return triggerTime;
+    });
+  }
+
+  // ============ Category Management Methods ============
+
+  /**
+   * Add a category to the event
+   * @param {string} category - Category to add
+   * @returns {boolean} True if category was added
+   */
+  addCategory(category) {
+    if (!category || typeof category !== 'string') {
+      throw new Error('Category must be a non-empty string');
+    }
+
+    const normalizedCategory = category.trim().toLowerCase();
+    if (!this.hasCategory(normalizedCategory)) {
+      this.categories.push(normalizedCategory);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Remove a category from the event
+   * @param {string} category - Category to remove
+   * @returns {boolean} True if category was removed
+   */
+  removeCategory(category) {
+    const normalizedCategory = category.trim().toLowerCase();
+    const index = this.categories.findIndex(
+      c => c.toLowerCase() === normalizedCategory
+    );
+
+    if (index !== -1) {
+      this.categories.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check if event has a specific category
+   * @param {string} category - Category to check
+   * @returns {boolean} True if event has the category
+   */
+  hasCategory(category) {
+    const normalizedCategory = category.trim().toLowerCase();
+    return this.categories.some(c => c.toLowerCase() === normalizedCategory);
+  }
+
+  /**
+   * Check if event has any of the specified categories
+   * @param {string[]} categories - Categories to check
+   * @returns {boolean} True if event has any of the categories
+   */
+  hasAnyCategory(categories) {
+    return categories.some(category => this.hasCategory(category));
+  }
+
+  /**
+   * Check if event has all of the specified categories
+   * @param {string[]} categories - Categories to check
+   * @returns {boolean} True if event has all of the categories
+   */
+  hasAllCategories(categories) {
+    return categories.every(category => this.hasCategory(category));
+  }
+
+  // ============ Validation Methods ============
+
+  /**
+   * Validate attendees
+   * @private
+   * @throws {Error} If attendees are invalid
+   */
+  _validateAttendees() {
+    for (const attendee of this.attendees) {
+      if (!attendee.email) {
+        throw new Error('All attendees must have an email address');
+      }
+      if (!attendee.name) {
+        attendee.name = attendee.email; // Use email as fallback name
+      }
+      if (!this._isValidEmail(attendee.email)) {
+        throw new Error(`Invalid attendee email: ${attendee.email}`);
+      }
+    }
+  }
+
+  /**
+   * Validate reminders
+   * @private
+   * @throws {Error} If reminders are invalid
+   */
+  _validateReminders() {
+    for (const reminder of this.reminders) {
+      if (typeof reminder.minutesBefore !== 'number' || reminder.minutesBefore < 0) {
+        throw new Error('Reminder minutesBefore must be a positive number');
+      }
+
+      const validMethods = ['email', 'popup', 'sms'];
+      if (!validMethods.includes(reminder.method)) {
+        throw new Error(`Invalid reminder method: ${reminder.method}`);
+      }
+    }
+  }
+
+  /**
+   * Validate email address
+   * @private
+   * @param {string} email - Email to validate
+   * @returns {boolean} True if email is valid
+   */
+  _isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // ============ Enhanced Getters ============
+
+  /**
+   * Check if the event is cancelled
+   * @returns {boolean} True if event is cancelled
+   */
+  get isCancelled() {
+    return this.status === 'cancelled';
+  }
+
+  /**
+   * Check if the event is tentative
+   * @returns {boolean} True if event is tentative
+   */
+  get isTentative() {
+    return this.status === 'tentative';
+  }
+
+  /**
+   * Check if the event is confirmed
+   * @returns {boolean} True if event is confirmed
+   */
+  get isConfirmed() {
+    return this.status === 'confirmed';
+  }
+
+  /**
+   * Check if the event is private
+   * @returns {boolean} True if event is private
+   */
+  get isPrivate() {
+    return this.visibility === 'private';
+  }
+
+  /**
+   * Check if the event is public
+   * @returns {boolean} True if event is public
+   */
+  get isPublic() {
+    return this.visibility === 'public';
+  }
+
+  /**
+   * Check if the event has attendees
+   * @returns {boolean} True if event has attendees
+   */
+  get hasAttendees() {
+    return this.attendees.length > 0;
+  }
+
+  /**
+   * Check if the event has reminders
+   * @returns {boolean} True if event has reminders
+   */
+  get hasReminders() {
+    return this.reminders.length > 0;
+  }
+
+  /**
+   * Check if the event is a meeting (has attendees or conference data)
+   * @returns {boolean} True if event is a meeting
+   */
+  get isMeeting() {
+    return this.hasAttendees || this.conferenceData !== null;
+  }
+
+  /**
+   * Check if the event is virtual (has conference data)
+   * @returns {boolean} True if event is virtual
+   */
+  get isVirtual() {
+    return this.conferenceData !== null;
   }
 }

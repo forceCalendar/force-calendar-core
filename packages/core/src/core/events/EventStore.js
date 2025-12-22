@@ -183,6 +183,32 @@ export class EventStore {
       results = results.filter(event => event.recurring === filters.recurring);
     }
 
+    // Filter by status
+    if (filters.status) {
+      results = results.filter(event => event.status === filters.status);
+    }
+
+    // Filter by categories
+    if (filters.categories && filters.categories.length > 0) {
+      results = results.filter(event =>
+        filters.matchAllCategories
+          ? event.hasAllCategories(filters.categories)
+          : event.hasAnyCategory(filters.categories)
+      );
+    }
+
+    // Filter by having attendees
+    if (filters.hasOwnProperty('hasAttendees')) {
+      results = results.filter(event => filters.hasAttendees ? event.hasAttendees : !event.hasAttendees);
+    }
+
+    // Filter by organizer email
+    if (filters.organizerEmail) {
+      results = results.filter(event =>
+        event.organizer && event.organizer.email === filters.organizerEmail
+      );
+    }
+
     // Sort results
     if (filters.sort) {
       results.sort((a, b) => {

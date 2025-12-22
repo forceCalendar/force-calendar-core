@@ -19,7 +19,89 @@
  * @property {boolean} [recurring=false] - Whether this is a recurring event
  * @property {RecurrenceRule|string} [recurrenceRule=null] - Recurrence rule (RRULE string or object)
  * @property {string} [timeZone=null] - IANA timezone for the event
+ * @property {EventStatus} [status='confirmed'] - Event status
+ * @property {EventVisibility} [visibility='public'] - Event visibility
+ * @property {Organizer} [organizer=null] - Event organizer
+ * @property {Attendee[]} [attendees=[]] - Event attendees
+ * @property {Reminder[]} [reminders=[]] - Event reminders
+ * @property {string[]} [categories=[]] - Event categories/tags
+ * @property {Attachment[]} [attachments=[]] - Event attachments
+ * @property {ConferenceData} [conferenceData=null] - Virtual meeting information
  * @property {Object.<string, any>} [metadata={}] - Custom metadata for extensibility
+ */
+
+/**
+ * @typedef {('confirmed'|'tentative'|'cancelled')} EventStatus
+ */
+
+/**
+ * @typedef {('public'|'private'|'confidential')} EventVisibility
+ */
+
+/**
+ * @typedef {('needs-action'|'accepted'|'declined'|'tentative'|'delegated')} AttendeeResponseStatus
+ */
+
+/**
+ * @typedef {('required'|'optional'|'resource')} AttendeeRole
+ */
+
+/**
+ * @typedef {('email'|'popup'|'sms')} ReminderMethod
+ */
+
+/**
+ * @typedef {Object} Organizer
+ * @property {string} [id] - Unique identifier for the organizer
+ * @property {string} name - Organizer's name
+ * @property {string} email - Organizer's email
+ * @property {string} [phoneNumber] - Organizer's phone number
+ * @property {string} [photoUrl] - URL to organizer's photo
+ */
+
+/**
+ * @typedef {Object} Attendee
+ * @property {string} [id] - Unique identifier for the attendee
+ * @property {string} name - Attendee's name
+ * @property {string} email - Attendee's email
+ * @property {string} [phoneNumber] - Attendee's phone number
+ * @property {string} [photoUrl] - URL to attendee's photo
+ * @property {AttendeeResponseStatus} [responseStatus='needs-action'] - Response status
+ * @property {AttendeeRole} [role='required'] - Attendee role
+ * @property {boolean} [optional=false] - Whether attendance is optional
+ * @property {boolean} [resource=false] - Whether attendee is a resource (room, equipment)
+ * @property {string} [comment] - Attendee's comment or note
+ * @property {Date} [responseTime] - When the attendee responded
+ */
+
+/**
+ * @typedef {Object} Reminder
+ * @property {string} [id] - Unique identifier for the reminder
+ * @property {ReminderMethod} method - Reminder method
+ * @property {number} minutesBefore - Minutes before event to trigger reminder
+ * @property {string} [message] - Custom reminder message
+ * @property {boolean} [enabled=true] - Whether reminder is active
+ */
+
+/**
+ * @typedef {Object} Attachment
+ * @property {string} [id] - Unique identifier for the attachment
+ * @property {string} fileName - File name
+ * @property {string} [fileUrl] - URL to the file
+ * @property {string} [mimeType] - MIME type of the file
+ * @property {number} [size] - File size in bytes
+ * @property {string} [iconUrl] - URL to file type icon
+ */
+
+/**
+ * @typedef {Object} ConferenceData
+ * @property {string} [id] - Unique identifier for the conference
+ * @property {string} [solution] - Conference solution (e.g., 'zoom', 'teams', 'meet')
+ * @property {string} [url] - Conference URL
+ * @property {string} [phone] - Conference phone number
+ * @property {string} [accessCode] - Access code or meeting ID
+ * @property {string} [password] - Meeting password
+ * @property {string} [notes] - Additional conference notes
  */
 
 /**
@@ -206,6 +288,11 @@
  * @property {number} [year] - Year
  * @property {boolean} [allDay] - Filter by all-day events
  * @property {boolean} [recurring] - Filter by recurring events
+ * @property {EventStatus} [status] - Filter by event status
+ * @property {string[]} [categories] - Filter by categories
+ * @property {boolean} [matchAllCategories=false] - Whether to match all categories (AND) or any (OR)
+ * @property {boolean} [hasAttendees] - Filter by events with/without attendees
+ * @property {string} [organizerEmail] - Filter by organizer email
  * @property {('start'|'end'|'duration'|'title')} [sort] - Sort field
  */
 
