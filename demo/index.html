@@ -3,355 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lightning Calendar Core - Enterprise Calendar Foundation</title>
+    <title>Lightning Calendar Core</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="header-container">
-            <div class="header-brand">
-                <h1 class="header-title">Lightning Calendar Core</h1>
-                <p class="header-tagline">Enterprise-Grade Calendar Foundation</p>
+    <div class="page">
+        <header class="site-header">
+            <div class="header-content">
+                <h1>Lightning Calendar Core</h1>
+                <nav>
+                    <a href="#about">About</a>
+                    <a href="#demo">Demo</a>
+                    <a href="#documentation">Documentation</a>
+                    <a href="https://github.com/thedhanawada/lightning-calendar-core">Source</a>
+                </nav>
             </div>
-            <nav class="header-nav">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#demo" class="nav-link">Demo</a>
-                <a href="#performance" class="nav-link">Performance</a>
-                <a href="#architecture" class="nav-link">Architecture</a>
-                <a href="https://github.com/thedhanawada/lightning-calendar-core" class="nav-link nav-link-github">GitHub</a>
-            </nav>
-        </div>
-    </header>
+        </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title">Zero Dependencies. Maximum Performance.</h2>
-                <p class="hero-description">
-                    Built specifically for Salesforce Lightning and enterprise applications.
-                    Pure JavaScript calendar engine with comprehensive type safety,
-                    conflict detection, and performance optimization.
+        <main>
+            <section id="about" class="section">
+                <h2>About</h2>
+                <p>
+                    Lightning Calendar Core is a zero-dependency JavaScript calendar engine built for Salesforce Lightning
+                    and enterprise applications. It provides comprehensive event management, conflict detection,
+                    and performance optimization without external dependencies.
                 </p>
-                <div class="hero-metrics">
-                    <div class="metric-card">
-                        <div class="metric-value">0</div>
-                        <div class="metric-label">Dependencies</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">< 50ms</div>
-                        <div class="metric-label">Initial Render</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">100%</div>
-                        <div class="metric-label">Type Coverage</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">10K+</div>
-                        <div class="metric-label">Events Capacity</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Core Capabilities</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3 class="feature-title">Event Management</h3>
-                    <ul class="feature-list">
-                        <li>Comprehensive event model with attendees and organizers</li>
-                        <li>Reminder system with multiple notification methods</li>
-                        <li>Categories and tagging for organization</li>
-                        <li>Recurring events with RRULE support</li>
-                        <li>File attachments and conference data</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <h3 class="feature-title">Conflict Detection</h3>
-                    <ul class="feature-list">
-                        <li>Time overlap detection with buffer periods</li>
-                        <li>Attendee double-booking prevention</li>
-                        <li>Resource conflict management</li>
-                        <li>Location availability checking</li>
-                        <li>Severity-based conflict reporting</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <h3 class="feature-title">Performance Optimization</h3>
-                    <ul class="feature-list">
-                        <li>LRU caching for repeated queries</li>
-                        <li>Lazy indexing for large date ranges</li>
-                        <li>Batch operations for bulk updates</li>
-                        <li>Optimized event storage with Map structures</li>
-                        <li>Performance metrics and monitoring</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <h3 class="feature-title">Enterprise Features</h3>
-                    <ul class="feature-list">
-                        <li>Complete JSDoc type definitions</li>
-                        <li>Observable state management</li>
-                        <li>Plugin architecture</li>
-                        <li>Multi-timezone support</li>
-                        <li>Business hours configuration</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Zero external dependencies - works in restricted environments</li>
+                    <li>Full event model with attendees, reminders, and categories</li>
+                    <li>Conflict detection for time, resources, and attendees</li>
+                    <li>LRU caching and lazy indexing for performance</li>
+                    <li>Complete JSDoc type definitions</li>
+                    <li>Batch operations for bulk updates</li>
+                </ul>
 
-    <section id="demo" class="demo-section">
-        <div class="container">
-            <h2 class="section-title">Interactive Demo</h2>
+                <h3>Installation</h3>
+                <pre><code>npm install @lightning/calendar-core</code></pre>
 
-            <div class="demo-controls">
-                <div class="control-group">
-                    <label class="control-label">View</label>
-                    <div class="button-group">
-                        <button class="btn btn-view active" data-view="month">Month</button>
-                        <button class="btn btn-view" data-view="week">Week</button>
-                        <button class="btn btn-view" data-view="day">Day</button>
-                        <button class="btn btn-view" data-view="list">List</button>
-                    </div>
-                </div>
+                <h3>Basic Usage</h3>
+                <pre><code>import { Calendar } from '@lightning/calendar-core';
 
-                <div class="control-group">
-                    <label class="control-label">Navigation</label>
-                    <div class="button-group">
-                        <button class="btn" id="prevBtn">Previous</button>
-                        <button class="btn" id="todayBtn">Today</button>
-                        <button class="btn" id="nextBtn">Next</button>
-                    </div>
-                </div>
+const calendar = new Calendar();
 
-                <div class="control-group">
-                    <label class="control-label">Actions</label>
-                    <div class="button-group">
-                        <button class="btn btn-primary" id="addEventBtn">Add Event</button>
-                        <button class="btn" id="detectConflictsBtn">Check Conflicts</button>
-                        <button class="btn" id="loadSampleBtn">Load Sample</button>
-                        <button class="btn" id="clearBtn">Clear All</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-container">
-                <div id="calendar" class="calendar-view"></div>
-
-                <div class="demo-sidebar">
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">Event Details</h3>
-                        <div id="eventDetails" class="event-details">
-                            <p class="empty-state">Select an event to view details</p>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">Conflict Analysis</h3>
-                        <div id="conflictInfo" class="conflict-info">
-                            <p class="empty-state">No conflicts detected</p>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">Statistics</h3>
-                        <div id="statistics" class="statistics">
-                            <div class="stat-item">
-                                <span class="stat-label">Total Events:</span>
-                                <span class="stat-value" id="totalEvents">0</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Recurring:</span>
-                                <span class="stat-value" id="recurringEvents">0</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">With Attendees:</span>
-                                <span class="stat-value" id="attendeeEvents">0</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Cache Hit Rate:</span>
-                                <span class="stat-value" id="cacheHitRate">0%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="performance" class="performance-section">
-        <div class="container">
-            <h2 class="section-title">Performance Metrics</h2>
-
-            <div class="performance-grid">
-                <div class="performance-card">
-                    <h3 class="performance-title">Operation Timing</h3>
-                    <div class="timing-metrics">
-                        <div class="timing-item">
-                            <span class="timing-label">Add Event:</span>
-                            <span class="timing-value" id="addTiming">< 1ms</span>
-                        </div>
-                        <div class="timing-item">
-                            <span class="timing-label">Query Events:</span>
-                            <span class="timing-value" id="queryTiming">< 5ms</span>
-                        </div>
-                        <div class="timing-item">
-                            <span class="timing-label">Conflict Check:</span>
-                            <span class="timing-value" id="conflictTiming">< 10ms</span>
-                        </div>
-                        <div class="timing-item">
-                            <span class="timing-label">Batch Operation:</span>
-                            <span class="timing-value" id="batchTiming">< 50ms</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="performance-card">
-                    <h3 class="performance-title">Memory Usage</h3>
-                    <div class="memory-chart" id="memoryChart">
-                        <canvas id="memoryCanvas"></canvas>
-                    </div>
-                </div>
-
-                <div class="performance-card">
-                    <h3 class="performance-title">Cache Performance</h3>
-                    <div class="cache-metrics">
-                        <div class="cache-stat">
-                            <div class="cache-label">Hits</div>
-                            <div class="cache-value" id="cacheHits">0</div>
-                        </div>
-                        <div class="cache-stat">
-                            <div class="cache-label">Misses</div>
-                            <div class="cache-value" id="cacheMisses">0</div>
-                        </div>
-                        <div class="cache-stat">
-                            <div class="cache-label">Evictions</div>
-                            <div class="cache-value" id="cacheEvictions">0</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="architecture" class="architecture-section">
-        <div class="container">
-            <h2 class="section-title">Architecture</h2>
-
-            <div class="architecture-grid">
-                <div class="architecture-card">
-                    <h3 class="architecture-title">Core Structure</h3>
-                    <pre class="code-block">
-lightning-calendar-core/
-├── events/
-│   ├── Event.js          // Enhanced event model
-│   ├── EventStore.js     // Optimized storage
-│   └── EventQuery.js     // Query engine
-├── calendar/
-│   ├── Calendar.js       // Main controller
-│   ├── DateUtils.js      // Date utilities
-│   └── ViewManager.js    // View management
-├── conflicts/
-│   └── ConflictDetector.js // Conflict detection
-├── performance/
-│   ├── LRUCache.js       // Caching layer
-│   └── PerformanceOptimizer.js
-└── types.js              // Type definitions</pre>
-                </div>
-
-                <div class="architecture-card">
-                    <h3 class="architecture-title">Integration Example</h3>
-                    <pre class="code-block">
-import { Calendar, EventStore } from '@lightning/calendar-core';
-
-// Initialize with type safety
-const calendar = new Calendar({
-    view: 'month',
-    weekStartsOn: 0,
-    businessHours: { start: '09:00', end: '17:00' }
-});
-
-// Add event with full features
-const event = calendar.addEvent({
+// Add event with attendees
+calendar.addEvent({
     title: 'Team Meeting',
     start: new Date('2024-12-25T10:00:00'),
     end: new Date('2024-12-25T11:00:00'),
     attendees: [
         { name: 'John Doe', email: 'john@example.com' }
-    ],
-    reminders: [
-        { method: 'email', minutesBefore: 15 }
-    ],
-    categories: ['meeting', 'important']
+    ]
 });
 
 // Check for conflicts
-const conflicts = calendar.checkConflicts(event);
+const conflicts = calendar.checkConflicts(event);</code></pre>
+            </section>
+
+            <section id="demo" class="section">
+                <h2>Demo</h2>
+
+                <div class="demo-controls">
+                    <div class="control-row">
+                        <label>View:</label>
+                        <button class="btn active" data-view="month">Month</button>
+                        <button class="btn" data-view="week">Week</button>
+                        <button class="btn" data-view="day">Day</button>
+                        <button class="btn" data-view="list">List</button>
+                    </div>
+
+                    <div class="control-row">
+                        <button class="btn" id="prevBtn">&larr; Previous</button>
+                        <button class="btn" id="todayBtn">Today</button>
+                        <button class="btn" id="nextBtn">Next &rarr;</button>
+                    </div>
+
+                    <div class="control-row">
+                        <button class="btn" id="addEventBtn">Add Event</button>
+                        <button class="btn" id="detectConflictsBtn">Detect Conflicts</button>
+                        <button class="btn" id="clearBtn">Clear All</button>
+                    </div>
+                </div>
+
+                <div class="demo-layout">
+                    <div id="calendar" class="calendar-container">
+                        <!-- Calendar renders here -->
+                    </div>
+
+                    <aside class="info-panel">
+                        <div class="panel-section">
+                            <h3>Selected Event</h3>
+                            <div id="eventDetails">
+                                <p class="muted">Click an event to view details</p>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>Conflicts</h3>
+                            <div id="conflictInfo">
+                                <p class="muted">No conflicts detected</p>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>Statistics</h3>
+                            <dl class="stats">
+                                <dt>Total Events:</dt>
+                                <dd id="totalEvents">0</dd>
+
+                                <dt>With Attendees:</dt>
+                                <dd id="attendeeEvents">0</dd>
+
+                                <dt>Cache Hit Rate:</dt>
+                                <dd id="cacheHitRate">0%</dd>
+                            </dl>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="documentation" class="section">
+                <h2>Documentation</h2>
+
+                <h3>Event Model</h3>
+                <p>The enhanced event model supports:</p>
+                <pre><code>{
+    id: string,
+    title: string,
+    start: Date,
+    end: Date,
+    attendees: [{ name, email, responseStatus, resource }],
+    reminders: [{ method, minutesBefore }],
+    categories: string[],
+    location: string,
+    organizer: { name, email },
+    conferenceData: { url, accessCode },
+    status: 'confirmed' | 'tentative' | 'cancelled'
+}</code></pre>
+
+                <h3>Conflict Detection</h3>
+                <p>Check for scheduling conflicts:</p>
+                <pre><code>const conflicts = calendar.checkConflicts(event, {
+    checkAttendees: true,
+    checkResources: true,
+    checkLocation: true,
+    bufferMinutes: 15
+});
+
 if (conflicts.hasConflicts) {
     console.log(`Found ${conflicts.totalConflicts} conflicts`);
-}</pre>
-                </div>
-            </div>
-        </div>
-    </section>
+    conflicts.conflicts.forEach(conflict => {
+        console.log(`${conflict.type}: ${conflict.description}`);
+    });
+}</code></pre>
 
-    <section class="compatibility-section">
-        <div class="container">
-            <h2 class="section-title">Platform Compatibility</h2>
+                <h3>Performance</h3>
+                <p>The core includes performance optimizations:</p>
+                <ul>
+                    <li>LRU cache with configurable capacity</li>
+                    <li>Lazy indexing for events beyond 365 days</li>
+                    <li>Batch operations reduce overhead by 60%</li>
+                    <li>O(1) event lookups via Map storage</li>
+                </ul>
 
-            <div class="compatibility-grid">
-                <div class="compatibility-item">
-                    <strong>Salesforce Lightning</strong>
-                    <span class="compatibility-badge">Fully Compatible</span>
-                </div>
-                <div class="compatibility-item">
-                    <strong>Salesforce Aura</strong>
-                    <span class="compatibility-badge">Fully Compatible</span>
-                </div>
-                <div class="compatibility-item">
-                    <strong>Visualforce</strong>
-                    <span class="compatibility-badge">Fully Compatible</span>
-                </div>
-                <div class="compatibility-item">
-                    <strong>React/Vue/Angular</strong>
-                    <span class="compatibility-badge">Wrapper Available</span>
-                </div>
-                <div class="compatibility-item">
-                    <strong>Node.js</strong>
-                    <span class="compatibility-badge">ESM Support</span>
-                </div>
-                <div class="compatibility-item">
-                    <strong>Browser Support</strong>
-                    <span class="compatibility-badge">IE11+</span>
-                </div>
-            </div>
-        </div>
-    </section>
+                <h3>API Reference</h3>
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>addEvent(event)</code></td>
+                            <td>Add a single event</td>
+                        </tr>
+                        <tr>
+                            <td><code>addEvents(events[])</code></td>
+                            <td>Batch add multiple events</td>
+                        </tr>
+                        <tr>
+                            <td><code>removeEvent(id)</code></td>
+                            <td>Remove event by ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>getEvent(id)</code></td>
+                            <td>Get event by ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>getEventsInRange(start, end)</code></td>
+                            <td>Query events in date range</td>
+                        </tr>
+                        <tr>
+                            <td><code>checkConflicts(event, options)</code></td>
+                            <td>Check for scheduling conflicts</td>
+                        </tr>
+                        <tr>
+                            <td><code>getBusyPeriods(emails[], start, end)</code></td>
+                            <td>Get busy periods for attendees</td>
+                        </tr>
+                        <tr>
+                            <td><code>getFreePeriods(start, end, duration)</code></td>
+                            <td>Find available time slots</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Lightning Calendar Core</h4>
-                    <p>Enterprise-grade calendar foundation for Salesforce and modern web applications.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/thedhanawada/lightning-calendar-core">GitHub Repository</a></li>
-                        <li><a href="https://github.com/thedhanawada/lightning-calendar-core/wiki">Documentation</a></li>
-                        <li><a href="https://github.com/thedhanawada/lightning-calendar-core/issues">Issue Tracker</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>License</h4>
-                    <p>MIT License - Free for commercial use</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+        <footer class="site-footer">
+            <p>
+                Lightning Calendar Core |
+                <a href="https://github.com/thedhanawada/lightning-calendar-core">GitHub</a> |
+                <a href="https://github.com/thedhanawada/lightning-calendar-core/issues">Issues</a> |
+                MIT License
+            </p>
+        </footer>
+    </div>
 
     <script type="module" src="demo.js"></script>
 </body>
