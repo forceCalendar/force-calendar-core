@@ -37,3 +37,8 @@ coverage/
 # Misc
 *.tgz
 .vercel
+
+# Salesforce local development
+.sf/
+.sfdx/
+.localdevserver/
