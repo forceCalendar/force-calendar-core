@@ -3,7 +3,7 @@
 # Sync core to LWC
 echo "Syncing core to Salesforce LWC..."
 
-SOURCE="core/core"
+SOURCE="core"
 TARGET="packages/examples/lwc-ui/force-app/main/default/lwc/lightningCalendarCore/core"
 
 # Remove old core from LWC

@@ -45,6 +45,7 @@ export class EventStore {
     // Batch operation state
     this.isBatchMode = false;
     this.batchNotifications = [];
+    this.batchBackup = null; // For rollback support
 
     // Change tracking
     /** @type {number} */
@@ -290,35 +291,49 @@ export class EventStore {
   getEventsForDate(date, timezone = null) {
     timezone = timezone || this.defaultTimezone;
 
-    // Convert the date to UTC range for the timezone
-    const startOfDayLocal = new Date(date);
-    startOfDayLocal.setHours(0, 0, 0, 0);
-    const endOfDayLocal = new Date(date);
-    endOfDayLocal.setHours(23, 59, 59, 999);
+    // Use local date string for the query date (in the calendar's timezone)
+    const dateStr = DateUtils.getLocalDateString(date);
 
-    // Convert to UTC for querying
-    const startUTC = this.timezoneManager.toUTC(startOfDayLocal, timezone);
-    const endUTC = this.timezoneManager.toUTC(endOfDayLocal, timezone);
+    // Get all events indexed for this date
+    const allEvents = [];
 
-    // Use UTC date strings for index lookup
-    const dateStr = startUTC.toDateString();
-    const eventIds = this.indices.byDate.get(dateStr) || new Set();
+    // Since events might span multiple days in different timezones,
+    // we need to check events from surrounding dates too
+    const checkDate = new Date(date);
+    for (let offset = -1; offset <= 1; offset++) {
+      const tempDate = new Date(checkDate);
+      tempDate.setDate(tempDate.getDate() + offset);
+      const tempDateStr = DateUtils.getLocalDateString(tempDate);
+      const eventIds = this.indices.byDate.get(tempDateStr) || new Set();
 
-    return Array.from(eventIds)
-      .map(id => this.events.get(id))
-      .filter(event => {
-        if (!event) return false;
-        // Additional check to ensure event actually overlaps with the day in the given timezone
-        return event.startUTC <= endUTC && event.endUTC >= startUTC;
-      })
-      .sort((a, b) => {
-        // Sort by start time in the specified timezone
-        const aStart = a.getStartInTimezone(timezone);
-        const bStart = b.getStartInTimezone(timezone);
-        const timeCompare = aStart - bStart;
-        if (timeCompare !== 0) return timeCompare;
-        return b.duration - a.duration; // Longer events first
-      });
+      for (const id of eventIds) {
+        const event = this.events.get(id);
+        if (event && !allEvents.find(e => e.id === event.id)) {
+          // Check if event actually occurs on the requested date in the given timezone
+          const eventStartLocal = event.getStartInTimezone(timezone);
+          const eventEndLocal = event.getEndInTimezone(timezone);
+
+          const startOfDay = new Date(date);
+          startOfDay.setHours(0, 0, 0, 0);
+          const endOfDay = new Date(date);
+          endOfDay.setHours(23, 59, 59, 999);
+
+          // Event overlaps with this day if it starts before end of day and ends after start of day
+          if (eventStartLocal <= endOfDay && eventEndLocal >= startOfDay) {
+            allEvents.push(event);
+          }
+        }
+      }
+    }
+
+    return allEvents.sort((a, b) => {
+      // Sort by start time in the specified timezone
+      const aStart = a.getStartInTimezone(timezone);
+      const bStart = b.getStartInTimezone(timezone);
+      const timeCompare = aStart - bStart;
+      if (timeCompare !== 0) return timeCompare;
+      return b.duration - a.duration; // Longer events first
+    });
   }
 
   /**
@@ -609,15 +624,19 @@ export class EventStore {
       return;
     }
 
-    // Use UTC times for consistent indexing across timezones
-    const startDate = DateUtils.startOfDay(new Date(event.startUTC || event.start));
-    const endDate = DateUtils.endOfDay(new Date(event.endUTC || event.end));
+    // Index by local dates in the event's timezone
+    // This ensures events appear on the correct calendar day
+    const eventStartLocal = event.getStartInTimezone(event.timeZone);
+    const eventEndLocal = event.getEndInTimezone(event.endTimeZone || event.timeZone);
 
-    // For each day the event spans (in UTC), add to date index
+    const startDate = DateUtils.startOfDay(eventStartLocal);
+    const endDate = DateUtils.endOfDay(eventEndLocal);
+
+    // For each day the event spans (in local time), add to date index
     const dates = DateUtils.getDateRange(startDate, endDate);
 
     dates.forEach(date => {
-      const dateStr = date.toDateString();
+      const dateStr = DateUtils.getLocalDateString(date);
 
       if (!this.indices.byDate.has(dateStr)) {
         this.indices.byDate.set(dateStr, new Set());
@@ -674,9 +693,12 @@ export class EventStore {
     // Create lazy index markers
     const markers = this.optimizer.createLazyIndexMarkers(event);
 
-    // Index only the boundaries initially
-    const startDate = DateUtils.startOfDay(event.start);
-    const endDate = DateUtils.endOfDay(event.end);
+    // Index only the boundaries initially (in event's local timezone)
+    const eventStartLocal = event.getStartInTimezone(event.timeZone);
+    const eventEndLocal = event.getEndInTimezone(event.endTimeZone || event.timeZone);
+
+    const startDate = DateUtils.startOfDay(eventStartLocal);
+    const endDate = DateUtils.endOfDay(eventEndLocal);
 
     // Index first week
     const firstWeekEnd = new Date(startDate);
@@ -685,7 +707,7 @@ export class EventStore {
       firstWeekEnd < endDate ? firstWeekEnd : endDate);
 
     firstWeekDates.forEach(date => {
-      const dateStr = date.toDateString();
+      const dateStr = DateUtils.getLocalDateString(date);
       if (!this.indices.byDate.has(dateStr)) {
         this.indices.byDate.set(dateStr, new Set());
       }
@@ -702,7 +724,7 @@ export class EventStore {
       );
 
       lastWeekDates.forEach(date => {
-        const dateStr = date.toDateString();
+        const dateStr = DateUtils.getLocalDateString(date);
         if (!this.indices.byDate.has(dateStr)) {
           this.indices.byDate.set(dateStr, new Set());
         }
@@ -804,10 +826,26 @@ export class EventStore {
   /**
    * Start batch mode for bulk operations
    * Delays notifications until batch is committed
+   * @param {boolean} [enableRollback=false] - Enable rollback support (creates backup)
    */
-  startBatch() {
+  startBatch(enableRollback = false) {
     this.isBatchMode = true;
     this.batchNotifications = [];
+
+    // Create backup for rollback if requested
+    if (enableRollback) {
+      this.batchBackup = {
+        events: new Map(this.events),
+        indices: {
+          byDate: new Map(Array.from(this.indices.byDate.entries()).map(([k, v]) => [k, new Set(v)])),
+          byMonth: new Map(Array.from(this.indices.byMonth.entries()).map(([k, v]) => [k, new Set(v)])),
+          recurring: new Set(this.indices.recurring),
+          byCategory: new Map(Array.from(this.indices.byCategory.entries()).map(([k, v]) => [k, new Set(v)])),
+          byStatus: new Map(Array.from(this.indices.byStatus.entries()).map(([k, v]) => [k, new Set(v)]))
+        },
+        version: this.version
+      };
+    }
   }
 
   /**
@@ -818,6 +856,9 @@ export class EventStore {
     if (!this.isBatchMode) return;
 
     this.isBatchMode = false;
+
+    // Clear backup after successful commit
+    this.batchBackup = null;
 
     // Send a single bulk notification
     if (this.batchNotifications.length > 0) {
@@ -834,11 +875,47 @@ export class EventStore {
 
   /**
    * Rollback batch operations
-   * Cancels batch without sending notifications
+   * Restores state to before batch started
    */
   rollbackBatch() {
+    if (!this.isBatchMode) return;
+
     this.isBatchMode = false;
+
+    // Restore backup if available
+    if (this.batchBackup) {
+      this.events = this.batchBackup.events;
+      this.indices = this.batchBackup.indices;
+      this.version = this.batchBackup.version;
+      this.batchBackup = null;
+
+      // Clear cache
+      this.optimizer.clearCache();
+    }
+
     this.batchNotifications = [];
+  }
+
+  /**
+   * Execute batch operation with automatic rollback on error
+   * @param {Function} operation - Operation to execute
+   * @param {boolean} [enableRollback=true] - Enable automatic rollback on error
+   * @returns {*} Result of operation
+   * @throws {Error} If operation fails
+   */
+  async executeBatch(operation, enableRollback = true) {
+    this.startBatch(enableRollback);
+
+    try {
+      const result = await operation();
+      this.commitBatch();
+      return result;
+    } catch (error) {
+      if (enableRollback) {
+        this.rollbackBatch();
+      }
+      throw error;
+    }
   }
 
   /**
