@@ -45,7 +45,17 @@ export class Event {
     // Normalize arrays
     normalized.attendees = Array.isArray(normalized.attendees) ? normalized.attendees : [];
     normalized.reminders = Array.isArray(normalized.reminders) ? normalized.reminders : [];
-    normalized.categories = Array.isArray(normalized.categories) ? normalized.categories : [];
+
+    // Handle both 'category' (singular) and 'categories' (plural)
+    if (data.category && !data.categories) {
+      // If single category is provided, convert to array
+      normalized.categories = [data.category];
+    } else if (normalized.categories) {
+      normalized.categories = Array.isArray(normalized.categories) ? normalized.categories : [];
+    } else {
+      normalized.categories = [];
+    }
+
     normalized.attachments = Array.isArray(normalized.attachments) ? normalized.attachments : [];
 
     // Normalize status and visibility
@@ -740,6 +750,14 @@ export class Event {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Get primary category (first in array) for backward compatibility
+   * @returns {string|null} Primary category or null
+   */
+  get category() {
+    return this.categories && this.categories.length > 0 ? this.categories[0] : null;
   }
 
   /**

@@ -11,7 +11,9 @@
   "scripts": {
     "dev": "lerna run dev --stream",
     "build": "lerna run build --stream",
-    "test": "lerna run test",
+    "test": "node tests/run-all.js",
+    "test:ics": "node tests/integration/test-ics.js",
+    "test:search": "node tests/integration/test-search.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint packages/*/src/**/*.js",

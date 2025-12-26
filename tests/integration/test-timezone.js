@@ -4,9 +4,9 @@
  * Test timezone functionality
  */
 
-import { Calendar } from './packages/core/src/index.js';
-import { Event } from './packages/core/src/core/events/Event.js';
-import { TimezoneManager } from './packages/core/src/core/timezone/TimezoneManager.js';
+import { Calendar } from '../../core/index.js';
+import { Event } from '../../core/events/Event.js';
+import { TimezoneManager } from '../../core/timezone/TimezoneManager.js';
 
 console.log('Testing Lightning Calendar Core - Timezone Support');
 console.log('==================================================\n');
