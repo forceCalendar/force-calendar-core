@@ -19,7 +19,7 @@ export { ICSHandler } from './ics/ICSHandler.js';
 export { EventSearch } from './search/EventSearch.js';
 
 // Version
-export const VERSION = '0.2.0';
+export const VERSION = '0.3.0';
 
 // Default export
 export { Calendar as default } from './calendar/Calendar.js';
