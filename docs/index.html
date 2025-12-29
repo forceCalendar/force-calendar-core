@@ -132,16 +132,34 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 200;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
+            line-height: 1;
+            margin-bottom: 0.5rem;
             letter-spacing: -2px;
             text-align: center;
         }
 
+        .hero h1 em {
+            font-style: italic;
+            font-family: Georgia, serif;
+            font-weight: 300;
+        }
+
         .hero h1 strong {
             font-weight: 700;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .hero-core {
+            font-size: 0.875rem;
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            letter-spacing: 4px;
+            font-weight: 400;
+            text-transform: uppercase;
+            opacity: 0.8;
         }
 
         .hero-tagline {
@@ -642,8 +660,8 @@
                 <span class="logo-badge">Core</span>
             </div>
             <div class="nav-links">
-                <a href="#why">Why Another</a>
-                <a href="#philosophy">Philosophy</a>
+                <a href="#why">Why Separate</a>
+                <a href="#philosophy">Architecture</a>
                 <a href="#problems">Problems</a>
                 <a href="#who">Who Needs This</a>
                 <a href="technical.html">Technical</a>
@@ -655,20 +673,22 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1><strong>forceCalendar</strong><span class="core-badge">Core</span></h1>
+            <h1><em>force</em><strong>Calendar</strong></h1>
+            <div class="hero-core">CORE ENGINE</div>
             <div style="text-align: center;">
                 <div class="hero-tagline">Built for Enterprise Constraints</div>
             </div>
             <p class="hero-subtitle">
-                Most calendar libraries break in enterprise environments. They need DOM access. They require
-                external services. They violate security policies. <strong>We built this one differently.</strong>
-                Pure computation. Zero DOM. Complete separation. Works where others can't.
+                <strong>This isn't a calendar. It's the engine that powers calendars.</strong><br>
+                Pure computation. Zero UI. Complete separation. Build any calendar interface you want
+                on top of this rock-solid foundation. Designed specifically for enterprise environments
+                where regular calendar libraries fail.
             </p>
 
             <div class="new-notice">
                 <div class="new-notice-header">
-                    <span class="new-badge">New Project</span>
-                    <span style="color: var(--accent); font-size: 0.875rem;">Early Stage • 0 Downloads • Fresh Perspective</span>
+                    <span class="new-badge">Early Stage</span>
+                    <span style="color: var(--accent); font-size: 0.875rem;">Fresh Engine • No Legacy • Built in 2024</span>
                 </div>
                 <p>
                     This is brand new. No legacy code. No backwards compatibility issues.
@@ -710,20 +730,20 @@
             </p>
         </section>
 
-        <!-- Why Another Calendar -->
+        <!-- Why Separate the Core -->
         <section class="why-section" id="why">
             <div class="section-header">
-                <h2>Why Build Another Calendar?</h2>
-                <p><strong>Because enterprise constraints are real</strong> - and most calendars weren't built for them</p>
+                <h2>Why Separate the Calendar Engine?</h2>
+                <p><strong>Because mixing UI with logic is why calendars break in enterprise</strong></p>
             </div>
 
             <div class="comparison-table">
                 <div class="comparison-row">
                     <div class="comparison-cell comparison-header">
-                        Traditional Calendar Libraries
+                        Full Calendar Libraries
                     </div>
                     <div class="comparison-cell comparison-header">
-                        forceCalendar <span class="core-badge" style="font-size: 0.875rem;">Core</span>
+                        Calendar Engine (forceCalendar Core)
                     </div>
                 </div>
                 <div class="comparison-row">
@@ -788,33 +808,36 @@
         <!-- Philosophy -->
         <section class="philosophy-section" id="philosophy">
             <div class="section-header">
-                <h2>The Separation Philosophy</h2>
-                <p>Three independent layers that work together</p>
+                <h2>The forceCalendar Architecture</h2>
+                <p>Building calendars the right way: separated layers</p>
             </div>
 
             <div class="philosophy-grid">
                 <div class="philosophy-item">
                     <div class="philosophy-number">1</div>
-                    <h3>Calendar Engine</h3>
+                    <h3>forceCalendar Core</h3>
                     <p>
-                        Pure computation. Time zones, recurrence rules, conflict detection.
-                        No UI, no framework, no opinions about display.
+                        <strong>(This Repository)</strong><br>
+                        The engine. Pure computation. Time zones, recurrence, conflict detection.
+                        No UI, no DOM, just math.
                     </p>
                 </div>
                 <div class="philosophy-item">
                     <div class="philosophy-number">2</div>
-                    <h3>UI Components</h3>
+                    <h3>forceCalendar UI</h3>
                     <p>
-                        Your choice. React, Vue, Lightning Web Components, or vanilla JS.
-                        The engine doesn't care how you display the data.
+                        <strong>(Coming Soon)</strong><br>
+                        Beautiful, accessible components. React, Vue, Web Components.
+                        Powered by the Core engine.
                     </p>
                 </div>
                 <div class="philosophy-item">
                     <div class="philosophy-number">3</div>
-                    <h3>Platform Integration</h3>
+                    <h3>forceCalendar for [Platform]</h3>
                     <p>
-                        Salesforce, SharePoint, or your custom platform.
-                        Each with its own specific requirements and constraints.
+                        <strong>(Platform Specific)</strong><br>
+                        Salesforce Lightning, SharePoint, ServiceNow.
+                        Each optimized for its platform's constraints.
                     </p>
                 </div>
             </div>
