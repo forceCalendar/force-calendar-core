@@ -144,6 +144,22 @@
             font-weight: 700;
         }
 
+        .hero-tagline {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .hero-subtitle {
             font-size: 1.25rem;
             color: var(--accent);
@@ -640,10 +656,13 @@
     <section class="hero">
         <div class="hero-content">
             <h1><strong>forceCalendar</strong><span class="core-badge">Core</span></h1>
+            <div style="text-align: center;">
+                <div class="hero-tagline">Built for Enterprise Constraints</div>
+            </div>
             <p class="hero-subtitle">
-                Yes, there are hundreds of calendar libraries. Here's why we built another one:
-                Complete separation between calendar logic and UI. Built specifically for enterprise
-                platforms like Salesforce where you can't touch the DOM.
+                Most calendar libraries break in enterprise environments. They need DOM access. They require
+                external services. They violate security policies. <strong>We built this one differently.</strong>
+                Pure computation. Zero DOM. Complete separation. Works where others can't.
             </p>
 
             <div class="new-notice">
@@ -662,11 +681,40 @@
     </section>
 
     <div class="content">
+        <!-- Enterprise Constraints Section -->
+        <section style="margin: 4rem 0; padding: 3rem; background: var(--dark); border-radius: 3px; border: 2px solid var(--accent); text-align: center;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--accent);">Enterprise Constraints Are Different</h2>
+            <p style="font-size: 1.125rem; color: var(--gray); max-width: 800px; margin: 0 auto 2rem;">
+                In enterprise environments, you can't just "npm install" any library. You face:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <h3 style="color: var(--error); margin-bottom: 0.5rem;">Security Sandboxes</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray);">Salesforce Locker Service, SharePoint isolation</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--error); margin-bottom: 0.5rem;">No DOM Access</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray);">Can't touch document or window objects</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--error); margin-bottom: 0.5rem;">Data Residency</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray);">Can't send data to external services</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--error); margin-bottom: 0.5rem;">Bundle Limits</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray);">Strict file size constraints</p>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; font-size: 1.25rem; color: var(--accent);">
+                <strong>We built forceCalendar Core to work within these constraints, not around them.</strong>
+            </p>
+        </section>
+
         <!-- Why Another Calendar -->
         <section class="why-section" id="why">
             <div class="section-header">
                 <h2>Why Build Another Calendar?</h2>
-                <p>Because most calendars weren't built for modern enterprise constraints</p>
+                <p><strong>Because enterprise constraints are real</strong> - and most calendars weren't built for them</p>
             </div>
 
             <div class="comparison-table">
@@ -940,10 +988,11 @@
         <!-- CTA Section -->
         <section class="cta-section">
             <h2 style="font-size: 2rem; font-weight: 200; margin-bottom: 1rem;">
-                Want to Try Something New?
+                Built for Your Enterprise Constraints
             </h2>
             <p style="font-size: 1.125rem; color: var(--gray); margin-bottom: 2rem;">
-                Early adopters shape the future. This is your chance to influence how it develops.
+                If you're fighting with calendar libraries that don't work in your enterprise environment,
+                this is built for you. Early stage, yes. But built right for enterprise from day one.
             </p>
 
             <div class="install-section">
