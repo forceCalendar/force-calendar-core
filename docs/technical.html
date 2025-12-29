@@ -32,18 +32,21 @@
 
         /* Header */
         header {
-            background: var(--dark);
+            background: rgba(13, 13, 13, 0.98);
             border-bottom: 1px solid var(--border);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
         }
 
         nav {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1.5rem 2rem;
+            padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -100,14 +103,23 @@
         .nav-links a {
             color: var(--gray);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--light);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a[title="View on GitHub"]:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
         }
 
         /* Main Container */
@@ -301,6 +313,95 @@
         }
 
         /* Responsive */
+        /* Footer */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .footer-brand h3 em {
+            font-style: italic;
+            font-family: Georgia, serif;
+            font-weight: 300;
+        }
+
+        .footer-brand h3 strong {
+            font-weight: 700;
+        }
+
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        .footer-section h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--light);
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        .footer-bottom-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         @media (max-width: 968px) {
             .container {
                 grid-template-columns: 1fr;
@@ -309,6 +410,15 @@
             .sidebar {
                 position: static;
                 margin-bottom: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
@@ -323,12 +433,12 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Overview</a>
-                <a href="https://github.com/ForceCalendar/force-calendar-core" title="View on GitHub">
+                <a href="https://github.com/ForceCalendar/force-calendar-core" title="View on GitHub" target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle;">
                         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                     </svg>
                 </a>
-                <a href="https://www.npmjs.com/package/@forcecalendar/core">NPM</a>
+                <a href="https://www.npmjs.com/package/@forcecalendar/core" target="_blank" rel="noopener noreferrer">NPM</a>
             </div>
         </nav>
     </header>
@@ -861,5 +971,56 @@ app.post('/api/events', (req, res) => {
             </section>
         </main>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3><em>force</em><strong>Calendar</strong> <span class="core-badge" style="font-size: 0.75rem;">Core</span></h3>
+                <p>
+                    A high-performance calendar engine built for enterprise constraints.
+                    Zero DOM dependencies, complete separation of logic and UI,
+                    designed for platforms like Salesforce where traditional libraries fail.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="https://github.com/ForceCalendar/force-calendar-core" target="_blank" rel="noopener noreferrer">GitHub →</a></li>
+                    <li><a href="https://www.npmjs.com/package/@forcecalendar/core" target="_blank" rel="noopener noreferrer">NPM Package →</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/ForceCalendar/force-calendar-core/issues" target="_blank" rel="noopener noreferrer">Report Issue →</a></li>
+                    <li><a href="https://github.com/ForceCalendar/force-calendar-core/discussions" target="_blank" rel="noopener noreferrer">Discussions →</a></li>
+                    <li><a href="https://github.com/ForceCalendar/force-calendar-core/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing →</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>forceCalendar Family</h4>
+                <ul>
+                    <li><a href="#">Core (Engine)</a></li>
+                    <li><a href="#" style="opacity: 0.5;">UI Components <small>(soon)</small></a></li>
+                    <li><a href="#" style="opacity: 0.5;">Salesforce LWC <small>(soon)</small></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div>© 2024 forceCalendar • Built for Enterprise Constraints</div>
+                <div>
+                    <a href="https://github.com/ForceCalendar/force-calendar-core/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" style="color: var(--gray); text-decoration: none; transition: color 0.3s;">
+                        MIT License
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
