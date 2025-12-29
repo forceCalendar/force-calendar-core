@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Force Calendar Core - High-performance calendar engine optimized for enterprise applications and Salesforce environments">
-    <title>Force Calendar Core | Enterprise Calendar Engine</title>
+    <meta name="description" content="Force Calendar Core - The invisible engine that makes calendars work. Fast, reliable, and works everywhere.">
+    <title>Force Calendar Core | The Calendar Engine</title>
     <style>
         :root {
             --dark: #1a1a1a;
@@ -14,6 +14,7 @@
             --accent: #e0e0e0;
             --code-bg: #0a0a0a;
             --border: #2a2a2a;
+            --success: #4ade80;
         }
 
         * {
@@ -106,9 +107,8 @@
         /* Hero Section */
         .hero {
             margin-top: 80px;
-            padding: 6rem 2rem;
+            padding: 6rem 2rem 4rem;
             background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
-            border-bottom: 1px solid var(--border);
         }
 
         .hero-content {
@@ -129,17 +129,243 @@
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--gray);
+            font-size: 1.375rem;
+            color: var(--accent);
             margin-bottom: 3rem;
             max-width: 700px;
             line-height: 1.8;
         }
 
+        /* Main Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Engine Analogy Section */
+        .engine-section {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 4rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .engine-visual {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .car-diagram {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        .engine-box {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            padding: 2rem;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .engine-box::after {
+            content: "ENGINE";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark);
+            padding: 0 10px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        .interface-box {
+            background: transparent;
+            border: 2px dashed var(--border);
+            padding: 2rem;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .interface-box::after {
+            content: "YOUR INTERFACE";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark);
+            padding: 0 10px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        /* Problem/Solution Grid */
+        .problems-section {
+            margin: 6rem 0;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #2a1a1a;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .problem-header h3 {
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: #ff6b6b;
+        }
+
+        .problem-header p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .solution-body {
+            padding: 1.5rem;
+        }
+
+        .solution-body h4 {
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--success);
+        }
+
+        .solution-body p {
+            font-size: 0.875rem;
+            color: var(--accent);
+            line-height: 1.6;
+        }
+
+        /* Visual Explanation */
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .visual-card {
+            padding: 2rem;
+        }
+
+        .visual-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .visual-card h3 {
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .visual-card p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* How It Works - Simple */
+        .how-it-works {
+            background: var(--dark);
+            border-radius: 3px;
+            padding: 4rem;
+            margin: 4rem 0;
+        }
+
+        .process-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .process-step {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 3px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .process-arrow {
+            color: var(--border);
+            font-size: 1.5rem;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            margin: 6rem 0;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .use-case {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 3px;
+        }
+
+        .use-case h4 {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--dark);
+            border-radius: 3px;
+            margin: 4rem 0;
+        }
+
         .cta-buttons {
             display: flex;
             gap: 1rem;
+            justify-content: center;
             flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
         .btn {
@@ -183,9 +409,8 @@
             border: 1px solid var(--border);
             border-radius: 3px;
             padding: 1.5rem;
-            margin: 3rem 0;
-            position: relative;
-            overflow: hidden;
+            margin: 2rem auto;
+            max-width: 600px;
         }
 
         .install-command {
@@ -215,188 +440,24 @@
             color: var(--dark);
         }
 
-        /* Main Content */
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .section {
-            margin-bottom: 6rem;
-        }
-
+        /* Section Headers */
         .section-header {
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
-        }
-
-        .section h2 {
-            font-size: 2rem;
-            font-weight: 200;
-            letter-spacing: -1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-subtitle {
-            color: var(--gray);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: var(--dark);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-family: 'SF Mono', Monaco, monospace;
-            color: var(--accent);
-            font-size: 1.25rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            font-weight: 400;
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-
-        /* Code Examples */
-        .code-block {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            padding: 2rem;
-            overflow-x: auto;
-            margin: 2rem 0;
-        }
-
-        .code-block pre {
-            font-family: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
-            font-size: 0.875rem;
-            line-height: 1.6;
-            color: var(--accent);
-        }
-
-        .code-comment {
-            color: #5a5a5a;
-        }
-
-        .code-keyword {
-            color: #a0a0a0;
-        }
-
-        .code-string {
-            color: #8a8a8a;
-        }
-
-        /* Architecture Diagram */
-        .architecture {
-            background: var(--dark);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            padding: 3rem;
-            margin: 2rem 0;
-        }
-
-        .arch-layers {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .arch-layer {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 3px;
-            position: relative;
-        }
-
-        .arch-layer h4 {
-            font-weight: 400;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
-        }
-
-        .arch-modules {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .arch-module {
-            background: var(--darker);
-            padding: 0.25rem 0.75rem;
-            border-radius: 3px;
-            font-size: 0.75rem;
-            font-family: 'SF Mono', Monaco, monospace;
-            color: var(--gray);
-            border: 1px solid var(--border);
-        }
-
-        /* Performance Metrics */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .metric {
             text-align: center;
-            padding: 2rem;
-            background: var(--dark);
-            border: 1px solid var(--border);
-            border-radius: 3px;
+            margin-bottom: 3rem;
         }
 
-        .metric-value {
+        .section-header h2 {
             font-size: 2.5rem;
             font-weight: 200;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
         }
 
-        .metric-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .section-header p {
+            font-size: 1.125rem;
             color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* Footer */
@@ -414,6 +475,7 @@
             justify-content: center;
             gap: 2rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .footer-links a {
@@ -432,12 +494,20 @@
                 font-size: 2.5rem;
             }
 
-            .features-grid {
+            .car-diagram {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-grid {
                 grid-template-columns: 1fr;
             }
 
             .nav-links {
                 display: none;
+            }
+
+            .engine-section {
+                padding: 2rem;
             }
         }
     </style>
@@ -449,9 +519,10 @@
                 <em>force</em><strong>Calendar</strong>
             </div>
             <div class="nav-links">
-                <a href="#architecture">Architecture</a>
-                <a href="#features">Features</a>
-                <a href="#performance">Performance</a>
+                <a href="#how">How It Works</a>
+                <a href="#problems">Problems Solved</a>
+                <a href="#uses">Use Cases</a>
+                <a href="technical.html">Technical Docs</a>
                 <a href="https://github.com/ForceCalendar/force-calendar-core">GitHub</a>
                 <span class="version-badge" id="version">v0.3.0</span>
             </div>
@@ -460,240 +531,278 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1><strong>Enterprise Calendar</strong> Engine</h1>
+            <h1>The <strong>Calendar Engine</strong></h1>
             <p class="hero-subtitle">
-                A high-performance, framework-agnostic calendar engine designed for mission-critical applications.
-                Built with spatial indexing for O(1) event lookups, full timezone support, and zero DOM dependencies.
+                Think of it as the engine in your car. You never see it, but it makes everything work.
+                Force Calendar Core is the invisible powerhouse that handles all the complex calendar math,
+                so you can focus on building beautiful interfaces.
             </p>
-            <div class="cta-buttons">
-                <a href="https://www.npmjs.com/package/@forcecalendar/core" class="btn btn-primary">
-                    Download Package
-                </a>
-                <a href="https://github.com/ForceCalendar/force-calendar-core" class="btn btn-secondary">
-                    View Source
-                </a>
+        </div>
+    </section>
+
+    <div class="content">
+        <!-- Engine Analogy -->
+        <section class="engine-section">
+            <div class="section-header">
+                <h2>What Is Force Calendar Core?</h2>
+                <p>It's the part nobody sees, but everybody needs</p>
             </div>
+
+            <div class="car-diagram">
+                <div class="engine-box">
+                    <h3 style="margin-bottom: 1rem; font-weight: 400;">Force Calendar Core</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray); line-height: 1.8;">
+                        Handles time zones<br>
+                        Stores events<br>
+                        Calculates dates<br>
+                        Finds conflicts<br>
+                        Manages recurrence
+                    </p>
+                </div>
+                <div class="interface-box">
+                    <h3 style="margin-bottom: 1rem; font-weight: 400;">What You Build</h3>
+                    <p style="font-size: 0.875rem; color: var(--gray); line-height: 1.8;">
+                        Beautiful calendars<br>
+                        Scheduling apps<br>
+                        Booking systems<br>
+                        Time trackers<br>
+                        Any UI you want
+                    </p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 1.125rem; color: var(--accent);">
+                Just like a car engine does all the hard work (combustion, pistons, timing),
+                Force Calendar Core does all the calendar work (time math, event storage, conflict detection).
+                You just build the dashboard.
+            </p>
+        </section>
+
+        <!-- Problems and Solutions -->
+        <section class="problems-section" id="problems">
+            <div class="section-header">
+                <h2>Real Problems, Real Solutions</h2>
+                <p>Common calendar headaches and how we solve them</p>
+            </div>
+
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"My calendar takes forever to load"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>We use the same technology that maps use to find locations instantly.
+                        Whether you have 10 events or 10,000, finding today's events takes the same
+                        tiny fraction of a second.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"Time zones are a nightmare"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>We handle all 387 time zones automatically. Schedule a meeting in New York,
+                        view it in Tokyo - it just works. Daylight saving time? Handled.
+                        Historical timezone changes? We got it.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"Double bookings keep happening"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>Before any event is saved, we instantly check for conflicts.
+                        It's like having a personal assistant that never sleeps and never
+                        makes mistakes.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"Recurring events are broken"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>We speak the same language as Google Calendar and Outlook.
+                        "Every weekday except holidays" or "First Monday of each month" -
+                        we understand it all perfectly.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"It doesn't work in Salesforce"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>Built specifically for Salesforce's strict security rules.
+                        No DOM manipulation, no global variables, no security violations.
+                        It just works, everywhere.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <h3>The Problem</h3>
+                        <p>"Calendar data is locked in"</p>
+                    </div>
+                    <div class="solution-body">
+                        <h4>Our Solution</h4>
+                        <p>Import and export standard .ics files that work with any calendar
+                        system. Your data is never locked in. Move freely between any
+                        calendar application.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works - Simple -->
+        <section class="how-it-works" id="how">
+            <div class="section-header">
+                <h2>How Does It Work?</h2>
+                <p>Simple: You ask, it answers - instantly</p>
+            </div>
+
+            <div class="process-flow">
+                <div class="process-step">
+                    <h4>You Ask</h4>
+                    <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.5rem;">
+                        "What's on my calendar today?"
+                    </p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>Core Processes</h4>
+                    <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.5rem;">
+                        Checks time zones, finds events, applies recurrence rules
+                    </p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <h4>You Get</h4>
+                    <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.5rem;">
+                        Today's events, instantly, correctly sorted
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h3 style="font-weight: 400; margin-bottom: 1.5rem;">The Magic Behind Speed</h3>
+                <div class="visual-grid">
+                    <div class="visual-card">
+                        <div class="visual-icon">📍</div>
+                        <h3>Location-Based Storage</h3>
+                        <p>Events are stored by their position in time, like pins on a map.
+                        Finding events for any date is like zooming into a map location.</p>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon">🗂️</div>
+                        <h3>Smart Indexing</h3>
+                        <p>Like a library catalog system, we know exactly where every event lives.
+                        No searching through everything to find what you need.</p>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon">💾</div>
+                        <h3>Memory Management</h3>
+                        <p>Keeps frequently used data ready, like keeping your favorite tools
+                        on top of your toolbox. Works fast on phones and servers alike.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="use-cases" id="uses">
+            <div class="section-header">
+                <h2>Who Uses This?</h2>
+                <p>Teams building calendar features without the calendar headaches</p>
+            </div>
+
+            <div class="use-case-grid">
+                <div class="use-case">
+                    <h4>Salesforce Developers</h4>
+                    <p>Building Lightning components that need calendar functionality
+                    without security violations</p>
+                </div>
+                <div class="use-case">
+                    <h4>SaaS Companies</h4>
+                    <p>Adding scheduling features to their products without
+                    reinventing the wheel</p>
+                </div>
+                <div class="use-case">
+                    <h4>Healthcare Systems</h4>
+                    <p>Managing patient appointments across multiple time zones
+                    with zero conflicts</p>
+                </div>
+                <div class="use-case">
+                    <h4>Education Platforms</h4>
+                    <p>Scheduling classes, managing recurring lectures,
+                    handling semester calendars</p>
+                </div>
+                <div class="use-case">
+                    <h4>Booking Applications</h4>
+                    <p>Hotels, restaurants, services - anywhere that needs
+                    reliable time slot management</p>
+                </div>
+                <div class="use-case">
+                    <h4>Enterprise Tools</h4>
+                    <p>Internal scheduling systems that need to be fast,
+                    reliable, and work everywhere</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 style="font-size: 2rem; font-weight: 200; margin-bottom: 1rem;">
+                Ready to Build Something Great?
+            </h2>
+            <p style="font-size: 1.125rem; color: var(--gray); margin-bottom: 2rem;">
+                Stop wrestling with time zones and date math. Let the engine handle it.
+            </p>
+
             <div class="install-section">
                 <div class="install-command">
                     <span>npm install @forcecalendar/core</span>
                     <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <div class="content">
-        <section class="section" id="what">
-            <div class="section-header">
-                <h2>What is Force Calendar Core?</h2>
-                <p class="section-subtitle">The Technical Foundation</p>
+            <div class="cta-buttons">
+                <a href="https://www.npmjs.com/package/@forcecalendar/core" class="btn btn-primary">
+                    Get Started
+                </a>
+                <a href="https://github.com/ForceCalendar/force-calendar-core" class="btn btn-secondary">
+                    View on GitHub
+                </a>
+                <a href="technical.html" class="btn btn-secondary">
+                    Technical Details
+                </a>
             </div>
-            <p style="font-size: 1.125rem; line-height: 1.8; color: var(--accent); margin-bottom: 2rem;">
-                Force Calendar Core is the computational engine that powers calendar operations. Think of it as the
-                mathematical brain that handles time calculations, event storage, and calendar logic - without any
-                visual components.
+
+            <p style="margin-top: 3rem; font-size: 0.875rem; color: var(--gray);">
+                Trusted by developers who value their time and their users' experience
             </p>
-            <p style="color: var(--gray); margin-bottom: 2rem;">
-                While traditional calendar libraries bundle everything together, Force Calendar Core focuses solely on
-                the algorithmic challenges: managing time across zones, detecting conflicts, parsing recurrence rules,
-                and optimizing event queries. This separation allows you to build exactly the interface you need,
-                whether that's a React component, a Salesforce Lightning app, or a command-line tool.
-            </p>
-            <div class="architecture">
-                <h3 style="margin-bottom: 2rem; font-weight: 300;">Core Architecture Layers</h3>
-                <div class="arch-layers">
-                    <div class="arch-layer">
-                        <h4>Application Layer</h4>
-                        <p style="color: var(--gray); font-size: 0.875rem;">Your UI framework or application</p>
-                        <div class="arch-modules">
-                            <span class="arch-module">React</span>
-                            <span class="arch-module">Vue</span>
-                            <span class="arch-module">Lightning</span>
-                            <span class="arch-module">Angular</span>
-                        </div>
-                    </div>
-                    <div class="arch-layer">
-                        <h4>Core Engine</h4>
-                        <p style="color: var(--gray); font-size: 0.875rem;">Pure computational logic</p>
-                        <div class="arch-modules">
-                            <span class="arch-module">Calendar.js</span>
-                            <span class="arch-module">EventStore.js</span>
-                            <span class="arch-module">StateManager.js</span>
-                            <span class="arch-module">TimezoneManager.js</span>
-                        </div>
-                    </div>
-                    <div class="arch-layer">
-                        <h4>Optimization Layer</h4>
-                        <p style="color: var(--gray); font-size: 0.875rem;">Performance and memory management</p>
-                        <div class="arch-modules">
-                            <span class="arch-module">SpatialIndex</span>
-                            <span class="arch-module">LRUCache</span>
-                            <span class="arch-module">AdaptiveMemory</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="architecture">
-            <div class="section-header">
-                <h2>How It Works</h2>
-                <p class="section-subtitle">Under the Hood</p>
-            </div>
-            <p style="margin-bottom: 2rem; color: var(--gray);">
-                The engine uses spatial data structures to index events by time, enabling constant-time lookups
-                regardless of dataset size. Events are stored in a multi-dimensional index that maps time ranges
-                to memory locations, similar to how databases index records for fast retrieval.
-            </p>
-            <div class="code-block">
-                <pre><span class="code-comment">// Initialize the calendar engine</span>
-<span class="code-keyword">import</span> { Calendar } <span class="code-keyword">from</span> <span class="code-string">'@forcecalendar/core'</span>;
-
-<span class="code-keyword">const</span> calendar = <span class="code-keyword">new</span> Calendar({
-    timeZone: <span class="code-string">'America/New_York'</span>,
-    weekStartsOn: 0, <span class="code-comment">// Sunday</span>
-    businessHours: { start: <span class="code-string">'09:00'</span>, end: <span class="code-string">'17:00'</span> }
-});
-
-<span class="code-comment">// Add an event with recurrence</span>
-calendar.addEvent({
-    id: <span class="code-string">'standup-1'</span>,
-    title: <span class="code-string">'Daily Standup'</span>,
-    start: <span class="code-keyword">new</span> Date(<span class="code-string">'2025-01-15T09:00:00'</span>),
-    end: <span class="code-keyword">new</span> Date(<span class="code-string">'2025-01-15T09:15:00'</span>),
-    recurrence: <span class="code-string">'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'</span>
-});
-
-<span class="code-comment">// Query events with O(1) performance</span>
-<span class="code-keyword">const</span> todayEvents = calendar.getEventsForDay(<span class="code-keyword">new</span> Date());
-<span class="code-keyword">const</span> conflicts = calendar.detectConflicts(newEvent);</pre>
-            </div>
-        </section>
-
-        <section class="section" id="features">
-            <div class="section-header">
-                <h2>Core Capabilities</h2>
-                <p class="section-subtitle">What Sets It Apart</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">O(1)</div>
-                    <h3>Spatial Indexing</h3>
-                    <p>
-                        Events are indexed using R-tree spatial data structures, providing constant-time
-                        lookups regardless of calendar size. Query millions of events as fast as querying ten.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">TZ</div>
-                    <h3>Timezone Intelligence</h3>
-                    <p>
-                        Full IANA timezone database with DST handling. Automatically converts between zones,
-                        handles daylight saving transitions, and manages historical timezone changes.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">RFC</div>
-                    <h3>Standards Compliance</h3>
-                    <p>
-                        Implements RFC 5545 (iCalendar) specification completely. Parse and generate RRULE
-                        recurrence patterns compatible with Google Calendar, Outlook, and Apple Calendar.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">SF</div>
-                    <h3>Salesforce Optimized</h3>
-                    <p>
-                        Built specifically for Locker Service compatibility. No DOM dependencies, no global
-                        pollution, fully sandboxed execution. Works seamlessly in Lightning Web Components.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">MEM</div>
-                    <h3>Adaptive Memory</h3>
-                    <p>
-                        Intelligent memory management with LRU caching and automatic garbage collection.
-                        Scales from embedded devices to enterprise servers without configuration.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">ICS</div>
-                    <h3>Universal Exchange</h3>
-                    <p>
-                        Import and export ICS/iCalendar files. Exchange data with any calendar system.
-                        Preserves all metadata including custom properties and extended attributes.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="performance">
-            <div class="section-header">
-                <h2>Performance Metrics</h2>
-                <p class="section-subtitle">Benchmarked on Production Workloads</p>
-            </div>
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-value">O(1)</div>
-                    <div class="metric-label">Event Lookup</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">10ms</div>
-                    <div class="metric-label">10K Event Query</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">387</div>
-                    <div class="metric-label">Timezone Support</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">18KB</div>
-                    <div class="metric-label">Core Size (gzip)</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="usage">
-            <div class="section-header">
-                <h2>Advanced Usage</h2>
-                <p class="section-subtitle">Real-World Patterns</p>
-            </div>
-            <div class="code-block">
-                <pre><span class="code-comment">// Conflict Detection</span>
-<span class="code-keyword">const</span> conflicts = calendar.detectConflicts({
-    start: <span class="code-keyword">new</span> Date(<span class="code-string">'2025-01-15T14:00:00'</span>),
-    end: <span class="code-keyword">new</span> Date(<span class="code-string">'2025-01-15T15:00:00'</span>)
-});
-
-<span class="code-comment">// Timezone Conversion</span>
-<span class="code-keyword">const</span> nyEvent = calendar.convertTimezone(event, <span class="code-string">'America/New_York'</span>);
-<span class="code-keyword">const</span> tokyoEvent = calendar.convertTimezone(event, <span class="code-string">'Asia/Tokyo'</span>);
-
-<span class="code-comment">// ICS Import/Export</span>
-<span class="code-keyword">import</span> { ICSHandler } <span class="code-keyword">from</span> <span class="code-string">'@forcecalendar/core/ics'</span>;
-
-<span class="code-keyword">const</span> icsData = ICSHandler.export(calendar.getEvents());
-<span class="code-keyword">const</span> importedEvents = ICSHandler.parse(icsFileContent);
-
-<span class="code-comment">// Advanced Search</span>
-<span class="code-keyword">import</span> { EventSearch } <span class="code-keyword">from</span> <span class="code-string">'@forcecalendar/core/search'</span>;
-
-<span class="code-keyword">const</span> search = <span class="code-keyword">new</span> EventSearch(calendar);
-<span class="code-keyword">const</span> results = search.query({
-    text: <span class="code-string">'meeting'</span>,
-    categories: [<span class="code-string">'work'</span>, <span class="code-string">'important'</span>],
-    dateRange: { start: today, end: nextWeek },
-    attendee: <span class="code-string">'john@company.com'</span>
-});</pre>
-            </div>
         </section>
     </div>
 
     <footer>
         <div>Force Calendar Core</div>
         <div class="footer-links">
-            <a href="https://www.npmjs.com/package/@forcecalendar/core">NPM</a>
-            <a href="https://github.com/ForceCalendar/force-calendar-core">GitHub</a>
-            <a href="https://github.com/ForceCalendar/force-calendar-core/issues">Issues</a>
+            <a href="https://www.npmjs.com/package/@forcecalendar/core">NPM Package</a>
+            <a href="https://github.com/ForceCalendar/force-calendar-core">Source Code</a>
+            <a href="https://github.com/ForceCalendar/force-calendar-core/issues">Report Issue</a>
+            <a href="technical.html">Technical Documentation</a>
             <a href="https://github.com/ForceCalendar/force-calendar-core/blob/master/LICENSE">MIT License</a>
         </div>
     </footer>
