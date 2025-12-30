@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ForceCalendar/force-calendar-core.git"
+    "url": "git+https://github.com/forceCalendar/core.git"
   },
   "keywords": [
     "calendar",
@@ -40,9 +40,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ForceCalendar/force-calendar-core/issues"
+    "url": "https://github.com/forceCalendar/core/issues"
   },
-  "homepage": "https://github.com/ForceCalendar/force-calendar-core#readme",
+  "homepage": "https://github.com/forceCalendar/core#readme",
   "devDependencies": {
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.23.0",
